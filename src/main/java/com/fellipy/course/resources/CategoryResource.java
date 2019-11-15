@@ -8,25 +8,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.fellipy.course.entities.Order;
-import com.fellipy.course.services.OrderService;
+import com.fellipy.course.entities.Category;
+import com.fellipy.course.services.CategoryService;
 
 @RestController
-@RequestMapping(value = "/orders")
-public class OrderResource {
+@RequestMapping(value = "/categories")
+public class CategoryResource {
 	
 	@Autowired
-	private OrderService orderService;
+	private CategoryService categoryService;
 	
 	@GetMapping
-	public ResponseEntity<List<Order>> findAll() {
-		List<Order> list = orderService.findAllOrders();
+	public ResponseEntity<List<Category>> findAll() {
+		List<Category> list = categoryService.findAllCategorys();
 		return ResponseEntity.ok().body(list);		
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Order> findById(@PathVariable Long id){
-		Order user = orderService.findById(id);
+	public ResponseEntity<Category> findById(@PathVariable Long id){
+		Category user = categoryService.findById(id);
 		return ResponseEntity.ok().body(user);
 	}
 }

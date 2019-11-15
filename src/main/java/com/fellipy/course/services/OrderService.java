@@ -13,14 +13,14 @@ import com.fellipy.course.repositories.OrderRepository;
 public class OrderService {
 	
 	@Autowired
-	private OrderRepository userRepository;
+	private OrderRepository orderRepository;
 	
 	public List<Order> findAllOrders() {
-		return userRepository.findAll();
+		return orderRepository.findAll();
 	}
 		
 	public Order findById(Long id) {
-		Optional<Order> user = userRepository.findById(id);
+		Optional<Order> user = orderRepository.findById(id);
 		return user.get();
 	}
 }
