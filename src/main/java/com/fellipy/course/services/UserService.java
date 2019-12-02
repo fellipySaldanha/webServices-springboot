@@ -3,15 +3,17 @@ package com.fellipy.course.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Service;
+import javax.persistence.EntityNotFoundException;
 
 import com.fellipy.course.entities.User;
 import com.fellipy.course.repositories.UserRepository;
 import com.fellipy.course.services.exceptions.DatabaseException;
 import com.fellipy.course.services.exceptions.ResourceNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
@@ -43,9 +45,14 @@ public class UserService {
 	}
 
 	public User update(Long id, User user) {
-		User userEntity = userRepository.getOne(id);
-		updateData(userEntity, user);
-		return userRepository.save(userEntity);
+		try {
+			User userEntity = userRepository.getOne(id);
+			updateData(userEntity, user);
+			return userRepository.save(userEntity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
+		
 	}
 
 	private void updateData(User userEntity, User user) {
